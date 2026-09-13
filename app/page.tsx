@@ -9,10 +9,10 @@ export default function LandingPage() {
         <div className="container-safe flex h-14 items-center justify-between">
           <span className="text-base font-semibold">Life RPG</span>
           <div className="flex items-center gap-3">
-            <Link href="/auth/login">
+            <Link href="/login">
               <Button variant="ghost" size="sm">Sign in</Button>
             </Link>
-            <Link href="/auth/signup">
+            <Link href="/signup">
               <Button size="sm">Get started</Button>
             </Link>
           </div>
@@ -29,10 +29,10 @@ export default function LandingPage() {
           Create tasks, build streaks, and level up your character as you get things done in the real world.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/auth/signup">
+          <Link href="/signup">
             <Button size="lg" className="w-full sm:w-auto">Start today</Button>
           </Link>
-          <Link href="/auth/login">
+          <Link href="/login">
             <Button size="lg" variant="outline" className="w-full sm:w-auto">Sign in</Button>
           </Link>
         </div>

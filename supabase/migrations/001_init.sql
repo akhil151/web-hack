@@ -1,6 +1,3 @@
--- Enable UUID extension
-create extension if not exists "uuid-ossp";
-
 -- Profiles (linked to auth.users)
 create table profiles (
   id uuid primary key references auth.users(id) on delete cascade,
@@ -20,7 +17,7 @@ create policy "Users can update their own profile"
 
 -- Characters
 create table characters (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   user_id uuid not null references profiles(id) on delete cascade,
   level int default 1 check (level >= 1),
   total_xp int default 0 check (total_xp >= 0),
@@ -44,7 +41,7 @@ create policy "Users can update their own character"
 
 -- Character Attributes
 create table character_attributes (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   character_id uuid not null references characters(id) on delete cascade,
   attribute text not null check (attribute in ('intellect', 'strength', 'focus', 'vitality')),
   xp int default 0 check (xp >= 0),
@@ -59,7 +56,7 @@ create policy "Users can view their own attributes"
 
 -- Quests
 create table quests (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   user_id uuid not null references profiles(id) on delete cascade,
   title text not null,
   description text default '',
@@ -92,7 +89,7 @@ create policy "Users can delete their own quests"
 
 -- Quest Completions (audit trail)
 create table quest_completions (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   quest_id uuid not null references quests(id) on delete cascade,
   user_id uuid not null references profiles(id) on delete cascade,
   xp_earned int not null,
@@ -109,7 +106,7 @@ create policy "Users can view their own completions"
 
 -- Relics (rewards shop items)
 create table relics (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   name text not null,
   description text,
   category text,
@@ -127,7 +124,7 @@ create policy "Anyone can view relics"
 
 -- Inventory
 create table inventory (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   user_id uuid not null references profiles(id) on delete cascade,
   relic_id uuid not null references relics(id) on delete cascade,
   acquired_at timestamp with time zone default now()
@@ -141,7 +138,7 @@ create policy "Users can view their own inventory"
 
 -- Daily Activity Tracking
 create table daily_activity (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   user_id uuid not null references profiles(id) on delete cascade,
   date date not null,
   unique(user_id, date)

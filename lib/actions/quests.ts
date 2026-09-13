@@ -1,6 +1,6 @@
 'use server';
 
-import { getUserFromSession, getServerSupabaseClient } from '@/lib/supabase/server';
+import { getUserFromSession, getServerSupabaseClient, getAuthenticatedSupabaseClient } from '@/lib/supabase/server';
 import { createQuestSchema } from '@/lib/validators/quests';
 import { getQuestXpReward, getQuestGoldReward } from '@/lib/rpg/progression';
 import { revalidatePath } from 'next/cache';
@@ -54,7 +54,7 @@ export async function completeQuest(questId: string) {
     throw new Error('Unauthorized');
   }
 
-  const supabase = await getServerSupabaseClient();
+  const supabase = await getAuthenticatedSupabaseClient();
 
   // The database RPC is now the source of truth for rewards and security.
   // It relies on auth.uid() internally and calculates all rewards itself.
